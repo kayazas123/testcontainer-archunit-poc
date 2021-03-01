@@ -3,6 +3,7 @@ package com.hardik.wrestleverse.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ import lombok.AllArgsConstructor;
 public class WrestlerController {
 
 	private final WrestlerService wrestlerService;
-
+	
 	@GetMapping("v1/wrestler/{wresterId}")
 	public Wrestler getWrestlerByIdHandler(@PathVariable(name = "wrestlerId", required = true) final UUID wrestlerId) {
 		return wrestlerService.getWrestlerById(wrestlerId);
@@ -32,19 +33,21 @@ public class WrestlerController {
 	public List<Wrestler> getWrestlersInCompanyIdHandler(
 			@PathVariable(name = "companyId", required = true) final UUID companyId) {
 		return wrestlerService.getWrestersByCompanyId(companyId);
+		
 	}
 
 	@GetMapping("v1/wrestler")
 	public List<Wrestler> getWrestlersHandler() {
 		return wrestlerService.getWrestlers();
 	}
-	
+
 	@PostMapping("v1/wrestler")
-	public Wrestler wrestlerCreationHandler(@RequestBody final WresterCreationRequest wresterCreationRequest ) {
+	public Wrestler wrestlerCreationHandler(@RequestBody final WresterCreationRequest wresterCreationRequest) {
 		return wrestlerService.createWrestler(wresterCreationRequest);
 	}
-	
+
 	@PutMapping("v1/wrestler")
+	@CachePut(value = "wrestlers", key = "#wrestlerUpdationRequest.companyId")
 	public Wrestler wrestlerUpdationHandler(@RequestBody final WrestlerUpdationRequest wrestlerUpdationRequest) {
 		return wrestlerService.updateWrestler(wrestlerUpdationRequest);
 	}

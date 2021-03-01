@@ -3,6 +3,7 @@ package com.hardik.wrestleverse.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.hardik.wrestleverse.entity.Wrestler;
@@ -25,6 +26,7 @@ public class WrestlerService {
 		return wrestlerRepository.findById(wrestlerId).orElseThrow(() -> new InvalidWrestlerIdException());
 	}
 
+	@Cacheable(value = "wrestlers", key = "#companyId")
 	public List<Wrestler> getWrestersByCompanyId(UUID companyId) {
 		return wrestlerRepository.findByCompanyId(companyId);
 	}

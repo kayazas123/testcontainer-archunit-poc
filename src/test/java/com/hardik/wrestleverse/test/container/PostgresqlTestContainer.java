@@ -1,15 +1,12 @@
 package com.hardik.wrestleverse.test.container;
 
-import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
-public class PostgresqlTestContainer {
-
+public class PostgresqlTestContainer{
 
 	public static PostgreSQLContainer container;
 
